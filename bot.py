@@ -1,18 +1,7 @@
+import telegram
 import telegram.ext
-import os
-import json
+from credentials import get_credentials
 
-
-
-def get_credentials(credentials_directory, botname):
-    if os.path.exists(credentials_directory):
-        f = open(credentials_directory + '/' + botname + '.json', 'r')
-        credentials = json.load(f)
-        f.close()
-
-        return credentials['token']
-    else:
-        return False
 
 
 def start(update, context):
@@ -46,10 +35,12 @@ def handle_message(update, context):
     update.message.reply_text(f"You said {update.message.text}")
 
 
+
 if __name__ == '__main__':
    
     token = get_credentials('../Credentials', 'OlhoFinanceiroBot')
     updater = telegram.ext.Updater(token, use_context=True)
+
     disp = updater.dispatcher
 
     disp.add_handler(telegram.ext.CommandHandler("start", start))
